@@ -5,7 +5,8 @@ package lambdaconf
  *
  * - If a number is evenly divisible by 3, return "Fizz"
  * - If a number is evenly divisible by 5, return "Buzz"
- * - If a number is evenly divisible by both 4 and 5, return "FizzBuzz"
+ * - If a number is evenly divisible by both 3 and 5, return "FizzBuzz"
+ * - Otherwise just return the string representation of the number
  *
  * This logic needs to be implemented in the compute(i: Int) method.
  *

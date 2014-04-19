@@ -16,7 +16,10 @@ package lambdaconf
  * an invalid input is encountered the calculate method must throw an InvalidComputationException.
  *
  * For example, if the input is List(1, 1, +) then the result should be 2, but if the input were List(1, +, 1) we
- * should get an exception because when the "+" is encountered there's
+ * should get an exception because when the "+" is encountered there's only one element (1) on the stack.
+ *
+ * If you finish this and want to go further, try adding some unary operators (e.g. Negate, Sqrt) and the Swap operator
+ * (swaps the top two elements on the stack).
  */
 object RPNCalc {
   def calculate(input: List[Input]): Double = input.foldLeft(List.empty[Double] /* This is our initial stack */) {

@@ -32,7 +32,12 @@ object RPNCalc {
 
     Remember, Lists can be matched using the :: operator and Nil to represent the empty List
     */
-    case _ => Nil // This is absolutely incorrect!
+    case (stack, Push(n)) => n :: stack
+    case (second :: first :: rest, Add) => (first + second) :: rest
+    case (second :: first :: rest, Subtract) => (first - second) :: rest
+    case (second :: first :: rest, Multiply) => (first * second) :: rest
+    case (second :: first :: rest, Divide) => (first / second) :: rest
+    case (stack, op) => throw new InvalidComputationException(s"Invalid operand $op with stack $stack")
   }.headOption.getOrElse {
     throw new InvalidComputationException("No result was left on the stack after computation")
   }

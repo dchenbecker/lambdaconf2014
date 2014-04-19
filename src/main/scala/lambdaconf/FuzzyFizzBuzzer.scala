@@ -19,9 +19,17 @@ package lambdaconf
  *
  */
 object FuzzyFizzBuzzer {
-  def compute(i: Int): String = ???
+  def compute(i: Int): String = i match {
+    case n if n % 3 == 0 && n % 5 == 0 => "FizzBuzz"
+    case n if n % 3 == 0 => "Fizz"
+    case n if n % 5 == 0 => "Buzz"
+    case other => other.toString
+  }
 
   def computeAny(a: Any): String = a match {
+    case i: Int => compute(i)
+    case d: Double if d.isValidInt => compute(d.toInt)
+    case s: String if isDouble(s) => computeAny(s.toDouble)
     case anythingElse => s"$anythingElse"
   }
 

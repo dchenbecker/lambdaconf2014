@@ -11,7 +11,7 @@ object IPExtraction {
   object Octet {
     // Lest this Pattern Matching hammer is making you see everything as a nail, note that this is probably more easily
     // implemented without patterns
-    def unapply(s: String): Option[Int] = ???
+    def unapply(s: String): Option[Int] = Try(s.toInt).toOption.filter(i => i >= 0 && i <= 255)
   }
 
   // A nicety so that the CIDR match can return something that's bindable as a case class rather than a String
@@ -22,7 +22,10 @@ object IPExtraction {
      This can be implemented as a pattern match leveraging your Octet extractor above. Remember, String.split(Char)
      returns an Array.
      */
-    def unapply(s: String): Option[(Int, Int, Int, Int)] = ???
+    def unapply(s: String): Option[(Int, Int, Int, Int)] = s.split('.') match {
+      case Array(Octet(a), Octet(b), Octet(c), Octet(d)) => Some((a, b, c, d))
+      case _ => None
+    }
   }
 
   object IPv6Prefix {
@@ -47,6 +50,11 @@ object IPExtraction {
      * For CIDR parsing, we have a format of ip/mask and require validation that the mask is an integer between 0 and
      * 32, inclusive. Utilize the matchers you've defined above in addition to any new logic needed for validation.
      */
-    def unapply(s: String): Option[(IPv4, Int)] = ???
+    def unapply(s: String): Option[(IPv4, Int)] = s.split('/') match {
+      case Array(IPv4(a,b,c,d), mask) => Try(mask.toInt).toOption.filter(m => m >= 0 && m <= 32).map {
+        vmask => (IPv4(a,b,c,d), vmask)
+      }
+      case _ => None
+    }
   }
 }
